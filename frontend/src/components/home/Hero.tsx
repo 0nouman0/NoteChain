@@ -1,7 +1,13 @@
-import React from 'react';
-import { BookOpen, Shield, Coins, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { BookOpen, Shield, Coins } from 'lucide-react';
+import ConnectWallet from './ConnectWallet';
+import Modal from './Modal';
+import { useTonConnect } from '../hooks/UseTonConnect';
 
 const Hero = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isConnected } = useTonConnect();
+
   return (
     <section className="relative min-h-screen pt-20 bg-gradient-to-b from-gray-900 to-indigo-900 overflow-hidden">
       {/* Background Elements */}
@@ -50,16 +56,15 @@ const Hero = () => {
               ))}
             </div>
 
-            <div className="group relative inline-block">
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-500 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-              <button className="relative flex items-center justify-between bg-white rounded-xl px-8 py-3 transition-transform duration-300 transform hover:-translate-y-1">
-                <span className="text-gray-900 font-semibold mr-2">Get Started</span>
-                <ArrowRight className="w-5 h-5 text-purple-600 transform group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
+            <ConnectWallet onOpenModal={() => setIsModalOpen(true)} />
           </div>
         </div>
       </div>
+
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </section>
   );
 };
